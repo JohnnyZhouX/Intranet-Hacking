@@ -30,7 +30,7 @@ dsquery group && net group /domain ------>列出该域内分组
 dsquery ou ------>列出该域内组织单位 
 dsquery server && net time /domain------>列出该域内域控制器 
 ```
-第三方信息收集
+#### 第三方信息收集
 
 ```
     NETBIOS 信息收集
@@ -80,15 +80,6 @@ dsquery server && net time /domain------>列出该域内域控制器
 |11211 |memcacache |未授权访问|
 |27017 |mongodb |爆破\未授权访问|
 ```
-
-#### 3.信息收集
-
-```
-
-
-```
-
-
 
 0x02. 进入内网&内网信息收集
 ----
