@@ -92,6 +92,21 @@ dsquery server && net time /domain------>列出该域内域控制器
         
 0x02. 代理相关
 ----
+#### 1.代理分类
+```
+代理服务器(ProxyServer)是网络信息的中转站，它接收客户端的访问请求，并以自己的身份转发此请求。对于接收信息的一方而占，就像代理服务器向它提出请求一样，从而保护了客户端，增加了反向追踪的难度。
+
+根据代理服务的功能划分，代理服务器可以分为:http代理服务器、sock5代理服务器、VPN代理服务器等。
+
+http代理：
+    http代理服器是一种最常见的代理服务器，它的优点是响应速度快、延迟相对较低及数量众多，如：Reduh、Tunna、reGeorg、Weevely、ABPTTS，通常不费吹灰之力就町以找到一个不错的http代理服务器。不过，它的缺点也比较明显，仅能响应http通信协议，并滤除80、8080等Web常用端口外的其他端口访问请求
+    举例：reGeorg,下载地址：https://github.com/sensepost/reGeorg，将reGeorg,上传到服务端。直接访问上传的reGeorg文件,提示“Georg says, 'All seems fine'”,则为正常，然后用在客户端使用命令行，运行py程序：python reGeorgSocksProxy.py -p 8080 -u http: //www.XXX.com/tunnel.jsp，接下来只要使用Socks5的工具,将代理指向127.0.0.1:8080,就可以了
+
+Socks代理服务器：
+       Sock5代理服务器最常用。它对访问协议、访问端口方面均没有限制，可以转发各种协议的通信请求。常见工具：Frp，Earthworm， Ssocks，msf做socks代理，CobaltStrike做socks代理
+
+```
+     
 
 0x03. 非域渗透
 ----
