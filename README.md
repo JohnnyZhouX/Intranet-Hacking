@@ -1,7 +1,44 @@
 # Hack_For_Intranet
  0x01. 信息收集
  ----
-#### 1.常见端口与服务
+#### 1.常见信息收集命令
+
+
+#ipconfig:
+```
+ipconfig /all ------> 查询本机 IP 段，所在域等
+```
+#net:
+```
+net user ------> 本机用户列表
+net localgroup administrators ------> 本机管理员[通常含有域用户]
+net user /domain ------> 查询域用户
+net group /domain ------> 查询域里面的工作组
+net group "domain admins" /domain ------> 查询域管理员用户组
+net localgroup administrators /domain ------> 登录本机的域管理员
+net localgroup administrators workgroup\user001 /add ----->域用户添加到本机 net group "Domain controllers" -------> 查看域控制器(如果有多台)
+net view ------> 查询同一域内机器列表 net view /domain ------> 查询域列表
+net view /domain:domainname
+```
+#dsquery
+```
+dsquery computer domainroot -limit 65535 && net group "domain
+computers" /domain ------> 列出该域内所有机器名
+dsquery user domainroot -limit 65535 && net user /domain------>列出该域内所有用户名
+dsquery subnet ------>列出该域内网段划分
+dsquery group && net group /domain ------>列出该域内分组 
+dsquery ou ------>列出该域内组织单位 
+dsquery server && net time /domain------>列出该域内域控制器 
+```
+第三方信息收集
+
+```
+    NETBIOS 信息收集
+    SMB 信息收集
+    空会话信息收集
+    漏洞信息收集等
+```
+#### 2.常见端口与服务
 
 ```
 | 端口号 | 端口说明 | 攻击技巧 |
@@ -44,7 +81,12 @@
 |27017 |mongodb |爆破\未授权访问|
 ```
 
-#### 2.
+#### 3.信息收集
+
+```
+
+
+```
 
 
 
