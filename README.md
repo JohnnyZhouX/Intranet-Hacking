@@ -114,8 +114,74 @@ VPN代理服务器
 
 0x03. 非域渗透
 ----
-#### 
+#### 1.
 ```
+端口扫描
+
+    1.端口的指纹信息（版本信息）
+    2.端口所对应运行的服务
+    3.常见的默认端口号
+    4.尝试弱口令
+
+端口爆破
+
+hydra
+端口弱口令
+
+    NTScan
+    Hscan
+    自写脚本
+
+端口溢出
+
+smb
+
+    ms08067
+    ms17010
+    ms11058
+    ...
+
+apache ftp ...
+常见的默认端口
+1、web类(web漏洞/敏感目录)
+
+第三方通用组件漏洞: struts thinkphp jboss ganglia zabbix ...
+
+80 web 
+80-89 web 
+8000-9090 web 
+
+2、数据库类(扫描弱口令)
+
+1433 MSSQL 
+1521 Oracle 
+3306 MySQL 
+5432 PostgreSQL 
+50000 DB2
+
+3、特殊服务类(未授权/命令执行类/漏洞)
+
+443 SSL心脏滴血 
+445 ms08067/ms11058/ms17010等 
+873 Rsync未授权 
+5984 CouchDB http://xxx:5984/_utils/ 
+6379 redis未授权 
+7001,7002 WebLogic默认弱口令，反序列 
+9200,9300 elasticsearch 参考WooYun: 多玩某服务器ElasticSearch命令执行漏洞 
+11211 memcache未授权访问 
+27017,27018 Mongodb未授权访问 
+50000 SAP命令执行 
+50070,50030 hadoop默认端口未授权访问 
+
+4、常用端口类(扫描弱口令/端口爆破)
+
+21 ftp 
+22 SSH 
+23 Telnet 
+445 SMB弱口令扫描 
+2601,2604 zebra路由，默认密码zebra 
+3389 远程桌面 
+
 ```
 
 0x04. 域渗透
