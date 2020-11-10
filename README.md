@@ -88,7 +88,55 @@ dsquery server && net time /domain------>列出该域内域控制器
 |11211 |memcacache |未授权访问|
 |27017 |mongodb |爆破\未授权访问|
 ```
+#### 5.内网拓扑架构分析
+```
+    DMZ
+    管理网
+    生产网
+    测试网
+ ```
+ 
+ #### 6.主机信息收集
+ ```
+1、用户列表
 
+windows用户列表 分析邮件用户，内网[域]邮件用户，通常就是内网[域]用户
+2、进程列表
+
+析杀毒软件/安全监控工具等 邮件客户端 VPN ftp等
+3、服务列表
+
+与安全防范工具有关服务[判断是否可以手动开关等] 存在问题的服务[权限/漏洞]
+4、端口列表
+
+开放端口对应的常见服务/应用程序[匿名/权限/漏洞等] 利用端口进行信息收集
+5、补丁列表
+
+分析 Windows 补丁 第三方软件[Java/Oracle/Flash 等]漏洞
+6、本机共享
+
+本机共享列表/访问权限 本机访问的域共享/访问权限
+7、本用户习惯分析
+
+历史记录 收藏夹 文档等
+8、获取当前用户密码工具
+Windows
+
+    mimikatz
+    wce
+    Invoke-WCMDump
+    mimiDbg
+    LaZagne
+    nirsoft_package
+    QuarksPwDump fgdump
+    星号查看器等
+
+Linux
+
+    LaZagne
+    mimipenguin
+
+ ```
         
 0x02. 代理相关
 ----
