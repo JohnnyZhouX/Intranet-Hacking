@@ -312,11 +312,85 @@ wmic /node:“hostname” bios get serialnumber (this can be great for finding w
 #### 2.常规渗透思路
 ```
     通过域成员主机，定位出域控制器IP及域管理员账号，利用域成员主机作为跳板，扩大渗透范围，利用域管理员可以登陆域中任何成员主机的特性，定位出域管理员登陆过的主机IP，设法从域成员主机内存中dump出域管理员密码，进而拿下域控制器、渗透整个内网
+``` 
+
+   #### GoldenTicket
 ```    
-    GoldenTicket
+    Golden Ticket（下面称为金票）是通过伪造的TGT（TicketGranting Ticket），因为只要有了高权限的TGT，那么就可以发送给TGS换取任意服务的ST。可以说有了金票就有了域内的最高权限
+    制作金票的条件：
+    1、域名称
+    2、域的SID值
+    3、域的KRBTGT账户密码HASH
+    4、伪造用户名，可以是任意的
+    利用过程
+    金票的生成需要用到krbtgt的密码HASH值，可以通过mimikatz中的lsadump::dcsync /test.test.org /user:krbtgt 命令获取krbtgt的值
+    
+    得到KRBTGT HASH之后使用mimikatz中的kerberos::golden功能生成金票golden.kiribi，即为伪造成功的TGT
+    mimikatz中：
+    kerberos::golden /admin:administrator /domain:test.org /sid:S-1-5-21-1812960810-2335050734-3517558805 /krbtgt:{KRBTGT HASH} /ticket:golden.kiribi
+     /admin：伪造的用户名
+     /domain：域名称
+     /sid：SID值，注意是去掉最后一个-后面的值
+     /krbtgt：krbtgt的HASH值
+     /ticket：生成的票据名称
+     
+   通过mimikatz中的kerberos::ptt功能（Pass The Ticket）将golden.kiribi导入内存中。
+    kerberos::purge
+    kerberos::ptt golden.kiribi
+    kerberos::list
+    
+    此时就可以通过dir成功访问域控的共享文件夹。
+    dir \\OWA.test.org\c$
 
+```
+#### SilverTickets
+```
+    Silver Tickets（下面称银票）就是伪造的ST（Service Ticket），因为在TGT已经在PAC里限定了给Client授权的服务（通过SID的值），所以银票只能访问指定服务。
+    
+    黄金票据和白银票据的一些区别： Golden Ticket：伪造TGT，可以获取任何Kerberos服务权限 银票：伪造TGS，只能访问指定的服务 加密方式不同： Golden Ticket由krbtgt的hash加密 Silver Ticket由服务账号（通常为计算机账户）Hash加密 认证流程不同： 金票在使用的过程需要同域控通信 银票在使用的过程不需要同域控通信
+    
+    制作银票的条件：
+    1.域名称
+    2.域的SID值
+    3.域的服务账户的密码HASH（不是krbtgt，是域控）
+    4.伪造的用户名，可以是任意用户名，这里是silver_test
+    
+    需要知道服务账户的密码HASH，这里同样拿域控来举例，通过mimikatz查看当前域账号administrator的HASH值
+    mimikatz生成银票
+    kerberos::golden /domain:0day.org /sid:S-1-5-21-1812960810-2335050734-3517558805 /target:OWA.test.org /service:cifs /rc4:125445ed1d553393cce9585e64e3fa07 /user:silver /ptt
+    参数说明：
+    /domain：当前域名称
+    /sid：SID值，和金票一样取前面一部分
+    /target：目标主机，这里是OWA.TEST.ORG
+    /service：服务名称，这里需要访问共享文件，所以是cifs
+    /rc4：目标主机的HASH值
+    /user：伪造的用户名
+    /ptt：表示的是Pass TheTicket攻击，是把生成的票据导入内存，也可以使用/ticket导出之后再使用kerberos::ptt来导入
+    这时通过klist查看当前会话的kerberos票据可以看到生成的票据
+    
+    dir \\OWA.test.org\c$访问DC的共享文件夹
+ ```   
+#### EnhancedGolden Tickets
+```
+    在Golden Ticket部分说明可利用krbtgt的密码HASH值生成金票，从而能够获取域控权限同时能够访问域内其他主机的任何服务。但是普通的金票不能够跨域使用，也就是说金票的权限被限制在当前域内
+    域树与域林
+    
+    TEST.ORG为根域,TEST1.TEST.ORG和 TEST2.TEST.ORG 均为 TEST.ORG的子域，这三个域组成了一个域树。子域的概念可以理解为一个集团在不同业务上分公司，他们有业务重合的点并且都属于 TEST1.ORG这个根域，但又独立运作。同样 TEST1.COM 也是一个单独的域树，两个域树 TEST.ORG 和 TEST1.ORG 组合起来被称为一个域林。
 
+   普通金票的局限性
 
+   TEST.ORG为其他两个域（TEST1.TEST.ORG和TEST2.TEST.ORG）的根域，根域和其他域的最大的区别就是根域对整个域林都有控制权。而域正是根据Enterprise Admins组来实现这样的权限划分。
+
+   Enterprise Admins组
+   EnterpriseAdmins组是域中用户的一个组，只存在于一个林中的根域中，这个组的成员，这里也就是TEST.ORG中的Administrator用户（不是本地的Administrator，是域中的Administrator）对域有完全管理控制权。
+
+   Domain Admins组
+   子域中是不存在EnterpriseAdmins组的，在一个子域中权限最高的组就是Domain Admins组。TEST.TEST.ORG这个子域中的Administrator用户，这个Administrator有当前域的最高权限
+   
+   知道根域的SID那么就可以通过子域的KRBTGT的HASH值，使用mimikatz创建具有 EnterpriseAdmins组权限（域林中的最高权限）的票据,然后通过mimikatz重新生成包含根域SID的新的金票
+   
+   此时的这个票据票是拥有整个域林的控制权的
+```
 0x05. 常见工具介绍
 ----
 
