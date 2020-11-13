@@ -310,7 +310,10 @@ wmic /node:“hostname” bios get serialnumber (this can be great for finding w
 
 ```
 #### 2.常规渗透思路
+```
     通过域成员主机，定位出域控制器IP及域管理员账号，利用域成员主机作为跳板，扩大渗透范围，利用域管理员可以登陆域中任何成员主机的特性，定位出域管理员登陆过的主机IP，设法从域成员主机内存中dump出域管理员密码，进而拿下域控制器、渗透整个内网
+```    
+    GoldenTicket
 
 
 
