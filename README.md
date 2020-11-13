@@ -238,182 +238,81 @@ apache ftp ...
 ```
 常用收集域信息命令
 
-Net use
-Net view
-Tasklist /v
-Ipconfig /all 
-net group /domain 获得所有域用户组列表
-net group “domain admins” /domain 获得域管理员列表
-net group “enterprise admins” /domain 获得企业管理员列表
-net localgroup administrators /domain 获取域内置administrators组用户（enterprise admins、domain admins）
-net group “domain controllers” /domain 获得域控制器列表
-net group “domain computers” /domain 获得所有域成员计算机列表
-net user /domain 获得所有域用户列表
-net user someuser /domain 获得指定账户someuser的详细信息
-net accounts /domain 获得域密码策略设置，密码长短，错误锁定等信息
-nltest /domain_trusts 获取域信任信息
+ipconfig /all ------ 查询本机IP段，所在域等
+net user ------ 本机用户列表
+net localhroup administrators ------ 本机管理员[通常含有域用户]
+net user /domain ------ 查询域用户
+net group /domain ------ 查询域里面的工作组
+net group “domain admins” /domain ------ 查询域管理员用户组
+net localgroup administrators /domain ------ 登录本机的域管理员
+net localgroup administrators workgroup\user001 /add ------域用户添加到本机
+net group “domain controllers” /domain ------ 查看域控制器(如果有多台)
+net time /domain ------ 判断主域，主域服务器都做时间服务器
+net config workstation ------ 当前登录域
+net session ------ 查看当前会话
+net use \ip\ipc$ pawword /user:username ------ 建立IPC会话[空连接-***]
+net share ------ 查看SMB指向的路径[即共享]
+net view ------ 查询同一域内机器列表
+net view \ip ------ 查询某IP共享
+net view /domain ------ 查询域列表
+net view /domain:domainname ------ 查看workgroup域中计算机列表
+net start ------ 查看当前运行的服务
+net accounts ------ 查看本地密码策略
+net accounts /domain ------ 查看域密码策略
+nbtstat –A ip ------netbios 查询
+netstat –an/ano/anb ------ 网络连接查询
+route print ------ 路由表
 
-SPN扫描
+dsquery computer ----- finds computers in the directory.
+dsquery contact ----- finds contacts in thedirectory.
+dsquery subnet ----- finds subnets in thedirectory.
+dsquery group ----- finds groups in thedirectory.
+dsquery ou ----- finds organizationalunits in the directory.
+dsquery site ----- finds sites in thedirectory.
+dsquery server ----- finds domain controllers inthe directory.
+dsquery user ----- finds users in thedirectory.
+dsquery quota ----- finds quota specificationsin the directory.
+dsquery partition ----- finds partitions in thedirectory.
+dsquery * ----- finds any object inthe directory by using a generic LDAP query.
+dsquery server –domain Yahoo.com | dsget server–dnsname –site —搜索域内域控制器的DNS主机名和站点名
+dsquery computer domainroot –name -xp –limit 10----- 搜索域内以-xp结尾的机器10台
+dsquery user domainroot –name admin -limit ---- 搜索域内以admin开头的用户10个
 
-不同于常规的tcp/udp端口扫描，由于spn本质就是正常的Kerberos请求，所以扫描是非常隐蔽，日前针对此类扫描的检测暂时也比较少。
+tasklist /V ----- 查看进程[显示对应用户]
+tasklist /S ip /U domain\username /P /V ----- 查看远程计算机进程列表
+qprocess * ----- 类似tasklist
+qprocess /SERVER:IP ----- 远程查看计算机进程列表
+nslookup –qt-MX Yahoo.com ----- 查看邮件服务器
+whoami /all ----- 查询当前用户权限等
+set ----- 查看系统环境变量
+systeminfo ----- 查看系统信息
+qwinsta ----- 查看登录情况
+qwinsta /SERVER:IP ----- 查看远程登录情况
+fsutil fsinfo drives ----- 查看所有盘符
+gpupdate /force ----- 更新域策略
 
-大部分win系统默认已自带spn探测工具即：setspn.exe
-
-此操作无需管理权限
-
-域内机器执行
-
-setspn -T target.com -Q */*
-
-可完整查出当前域内所有spn。
-
-Checking domain DC=rootkit,DC=org
-CN=OWA2013,OU=Domain Controllers,DC=rootkit,DC=org
-	IMAP/OWA2013
-	IMAP/OWA2013.rootkit.org
-	IMAP4/OWA2013
-	IMAP4/OWA2013.rootkit.org
-	POP/OWA2013
-	POP/OWA2013.rootkit.org
-	POP3/OWA2013
-	POP3/OWA2013.rootkit.org
-	exchangeRFR/OWA2013
-	exchangeRFR/OWA2013.rootkit.org
-	exchangeMDB/OWA2013
-	exchangeMDB/OWA2013.rootkit.org
-	SMTP/OWA2013
-	SMTP/OWA2013.rootkit.org
-	SmtpSvc/OWA2013
-	SmtpSvc/OWA2013.rootkit.org
-	exchangeAB/OWA2013
-	exchangeAB/OWA2013.rootkit.org
-	Dfsr-12F9A27C-BF97-4787-9364-D31B6C55EB04/OWA2013.rootkit.org
-	ldap/OWA2013.rootkit.org/ForestDnsZones.rootkit.org
-	ldap/OWA2013.rootkit.org/DomainDnsZones.rootkit.org
-	TERMSRV/OWA2013
-	TERMSRV/OWA2013.rootkit.org
-	DNS/OWA2013.rootkit.org
-	GC/OWA2013.rootkit.org/rootkit.org
-	RestrictedKrbHost/OWA2013.rootkit.org
-	RestrictedKrbHost/OWA2013
-	RPC/58650e64-9681-4c62-b26e-7914b9041f72._msdcs.rootkit.org
-	HOST/OWA2013/ROOTKIT
-	HOST/OWA2013.rootkit.org/ROOTKIT
-	HOST/OWA2013
-	HOST/OWA2013.rootkit.org
-	HOST/OWA2013.rootkit.org/rootkit.org
-	E3514235-4B06-11D1-AB04-00C04FC2DCD2/58650e64-9681-4c62-b26e-7914b9041f72/rootkit.org
-	ldap/OWA2013/ROOTKIT
-	ldap/58650e64-9681-4c62-b26e-7914b9041f72._msdcs.rootkit.org
-	ldap/OWA2013.rootkit.org/ROOTKIT
-	ldap/OWA2013
-	ldap/OWA2013.rootkit.org
-	ldap/OWA2013.rootkit.org/rootkit.org
-CN=krbtgt,CN=Users,DC=rootkit,DC=org
-	kadmin/changepw
-CN=dbadmin,OU=运维部,DC=rootkit,DC=org
-	MSSQLSvc/Srv-Web-Kit.rootkit.org:1433
-	MSSQLSvc/Srv-Web-Kit.rootkit.org
-CN=SRV-WEB-KIT,CN=Computers,DC=rootkit,DC=org
-	TERMSRV/SRV-WEB-KIT
-	TERMSRV/Srv-Web-Kit.rootkit.org
-	WSMAN/Srv-Web-Kit
-	WSMAN/Srv-Web-Kit.rootkit.org
-	RestrictedKrbHost/SRV-WEB-KIT
-	HOST/SRV-WEB-KIT
-	RestrictedKrbHost/Srv-Web-Kit.rootkit.org
-	HOST/Srv-Web-Kit.rootkit.org
-CN=PC-JERRY-KIT,CN=Computers,DC=rootkit,DC=org
-	RestrictedKrbHost/PC-JERRY-KIT
-	HOST/PC-JERRY-KIT
-	RestrictedKrbHost/PC-jerry-Kit.rootkit.org
-	HOST/PC-jerry-Kit.rootkit.org
-CN=PC-MICLE-KIT,CN=Computers,DC=rootkit,DC=org
-	RestrictedKrbHost/PC-MICLE-KIT
-	HOST/PC-MICLE-KIT
-	RestrictedKrbHost/PC-micle-Kit.rootkit.org
-	HOST/PC-micle-Kit.rootkit.org
-CN=PC-TORNDO-KIT,CN=Computers,DC=rootkit,DC=org
-	HOST/PC-TORNDO-KIT
-	HOST/pc-torndo-Kit.rootkit.org
-CN=sqladmin,OU=运维部,DC=rootkit,DC=org
-	variant/golden
-
-Existing SPN found!
-
-定位域控
-查询dns解析记录
-
-若当前主机的dns为域内dns，可通过查询dns解析记录定位域控。
-
-nslookup -type=all _ldap._tcp.dc._msdcs.rootkit.org
-
-1566979004463
-SPN扫描
-
-在SPN扫描结果中可以通过CN=OWA2013,OU=Domain Controllers,DC=rootkit,DC=org来进行域控的定位。
-net group
-
-net group "domain controllers" /domain
-
-1566979395890
-端口识别
-
-扫描内网中同时开放389和53端口的机器。
-
-端口：389
-服务：LDAP、ILS
-说明：轻型目录访问协议和NetMeeting Internet Locator Server共用这一端口。
-
-端口：53
-服务：Domain Name Server（DNS）
-说明：53端口为DNS(Domain Name Server，域名服务器)服务器所开放，主要用于域名解析，DNS服务在NT系统中使用的最为广泛。通过DNS服务器可以实现域名与IP地址之间的转换，只要记住域名就可以快速访问网站。
-
-1566979627122
-域内关键组
-
-比如在拿到域控后可以通过重点关注关键部门人员的机器来得到更多的信息。
-
-1566980640086
-
-以上图为例，我们可以重点关注和监控运维部的用户机器，通常他们的机器上存在大量内网网络拓扑和网络构架信息或者是一些重要的密码本。
-AdFind
-
-C++实现(未开源)，用于查询域内信息
-
-http://www.joeware.net/freetools/tools/adfind/index.htm
-
-常用命令如下：
-
-列出域控制器名称：
-
-AdFind -sc dclist
-
-查询当前域中在线的计算机：
-
-AdFind -sc computers_active
-
-查询当前域中在线的计算机(只显示名称和操作系统)：
-
-AdFind -sc computers_active name operatingSystem
-
-查询当前域中所有计算机：
-
-AdFind -f "objectcategory=computer"
-
-查询当前域中所有计算机(只显示名称和操作系统)：
-
-AdFind -f "objectcategory=computer" name operatingSystem
-
-查询域内所有用户：
-
-AdFind -users name
-
-查询所有GPO：
-
-AdFind -sc gpodmp
+wmic bios ----- 查看bios信息
+wmic qfe ----- 查看补丁信息
+wmic qfe get hotfixid ----- 查看补丁-Patch号
+wmic startup ----- 查看启动项
+wmic service ----- 查看服务
+wmic os ----- 查看OS信息
+wmic process get caption,executablepath,commandline
+wmic process call create “process_name” (executes a program)
+wmic process where name=”process_name” call terminate (terminates program)
+wmic logicaldisk where drivetype=3 get name, freespace, systemname, filesystem, size,
+volumeserialnumber (hard drive information)
+wmic useraccount (usernames, sid, and various security related goodies)
+wmic useraccount get /ALL
+wmic share get /ALL (you can use ? for gets help ! )
+wmic startup list full (this can be a huge list!!!)
+wmic /node:“hostname” bios get serialnumber (this can be great for finding warranty info about target)
 
 ```
+#### 2.常规渗透思路
+    通过域成员主机，定位出域控制器IP及域管理员账号，利用域成员主机作为跳板，扩大渗透范围，利用域管理员可以登陆域中任何成员主机的特性，定位出域管理员登陆过的主机IP，设法从域成员主机内存中dump出域管理员密码，进而拿下域控制器、渗透整个内网
+
+
 
 0x05. 常见工具介绍
 ----
