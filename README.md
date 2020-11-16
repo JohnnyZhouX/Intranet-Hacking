@@ -271,7 +271,8 @@ msf简单使用:
 #### 3.Cobalt Strike简单使用 
 
 cs简单使用：
-https://www.freebuf.com/company-information/167460.html
+1.https://www.freebuf.com/company-information/167460.html
+2.https://www.jianshu.com/p/8d823adbc6b5
 
 0x03. 非域渗透
 ----
