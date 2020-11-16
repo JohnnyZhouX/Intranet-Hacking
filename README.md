@@ -265,14 +265,14 @@ VPN代理服务器
 #### 2.METASPLOIT简单使用
 
 
-msf简单使用:https://www.freebuf.com/news/210292.html
+msf简单使用:
+https://www.freebuf.com/news/210292.html
 
 
 #### 3.Cobalt Strike简单使用 
 
-```
-
-```
+cs简单使用：
+https://www.freebuf.com/company-information/167460.html
 
 0x03. 非域渗透
 ----
