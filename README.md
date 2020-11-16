@@ -42,8 +42,83 @@ dsquery server && net time /domain------>列出该域内域控制器
 
 ```
 1.nmap 等工具扫描
-2.msf/cs自带模块扫描
+
+2.msf自带模块扫描
+
+MSF内网渗透 扫描模块
+
+端口扫描
+
+auxiliary/scanner/portscan
+scanner/portscan/ack        ACK防火墙扫描
+scanner/portscan/ftpbounce  FTP跳端口扫描
+scanner/portscan/syn        SYN端口扫描
+scanner/portscan/tcp        TCP端口扫描
+scanner/portscan/xmas       TCP"XMas"端口扫描
+
+SMB扫描
+
+smb枚举auxiliary/scanner/smb/smb_enumusers
+返回DCERPC信息auxiliary/scanner/smb/pipe_dcerpc_auditor
+扫描SMB2协议auxiliary/scanner/smb/smb2
+扫描smb共享文件auxiliary/scanner/smb/smb_enumshares
+枚举系统上的用户auxiliary/scanner/smb/smb_enumusers
+SMB登录auxiliary/scanner/smb/smb_login
+SMB登录use windows/smb/psexec(通过md5值登录)
+扫描组的用户auxiliary/scanner/smb/smb_lookupsid
+扫描系统版本auxiliary/scanner/smb/smb_version
+
+mssql扫描(端口tcp1433udp1434)
+
+admin/mssql/mssql_enum     MSSQL枚举
+admin/mssql/mssql_exec     MSSQL执行命令
+admin/mssql/mssql_sql      MSSQL查询
+scanner/mssql/mssql_login  MSSQL登陆工具
+scanner/mssql/mssql_ping   测试MSSQL的存在和信息
+
+另外还有一个mssql_payload的模块 利用使用的
+
+smtp扫描
+
+smtp枚举auxiliary/scanner/smtp/smtp_enum
+扫描smtp版本auxiliary/scanner/smtp/smtp_version
+
+snmp扫描
+
+通过snmp扫描设备auxiliary/scanner/snmp/community
+
+ssh扫描
+
+ssh登录auxiliary/scanner/ssh/ssh_login
+ssh公共密钥认证登录auxiliary/scanner/ssh/ssh_login_pubkey
+扫描ssh版本测试auxiliary/scanner/ssh/ssh_version
+
+telnet扫描
+
+telnet登录auxiliary/scanner/telnet/telnet_login
+扫描telnet版本auxiliary/scanner/telnet/telnet_version
+
+tftp扫描
+
+扫描tftp的文件auxiliary/scanner/tftp/tftpbrute
+
+ftp版本扫描scanner/ftp/anonymous
+ARP扫描
+
+auxiliary/scanner/discovery/arp_sweep
+
+扫描UDP服务的主机auxiliary/scanner/discovery/udp_probe
+检测常用的UDP服务auxiliary/scanner/discovery/udp_sweep
+sniffer密码auxiliary/sniffer/psnuffle
+snmp扫描scanner/snmp/community
+vnc扫描无认证扫描scanner/vnc/vnc_none_auth
+
+3.Cobalt Strike扫描 
+    本身支持的arp icmp等协议扫描
+    各种丰富的第三方插件（注意安全）根据需求各取所需，比如Ladon，taowu等等。。。。。。
+
 3.脚本扫描
+  ps，py,ruby,php，Java，asp等等各种支持当前环境的扫描脚本
 ```
 
 #### 4.常见端口与服务
