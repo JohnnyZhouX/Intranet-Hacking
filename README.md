@@ -266,9 +266,8 @@ VPN代理服务器
 
 
 msf简单使用:
-https://www.freebuf.com/news/210292.html
-
-
+1.https://www.freebuf.com/news/210292.html
+2.https://www.jianshu.com/p/1adbabecdcbd
 #### 3.Cobalt Strike简单使用 
 
 cs简单使用：
