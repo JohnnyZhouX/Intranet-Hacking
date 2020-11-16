@@ -153,7 +153,8 @@ http代理：
 Socks代理服务器：
     Sock5代理服务器最常用。它对访问协议、访问端口方面均没有限制，可以转发各种协议的通信请求。常见工具：Frp，Earthworm， Ssocks，msf做socks代理，CobaltStrike做socks4a代理
     
-    ew正向 SOCKS v5 服务器:
+    EW（EarthWorm）使用：
+    正向 SOCKS v5 服务器:
     ./ew -s ssocksd -l 1080
     
     反弹 SOCKS v5 服务器:
@@ -181,7 +182,7 @@ Socks代理服务器：
     $ ./ew -s lcx_slave -d 127.0.0.1 -e 8888 -f 127.0.0.1 -g 9999
     $ ./ew -s lcx_listen -l 9999 -e 7777
     $ ./ew -s rssocks -d 127.0.0.1 -e 7777
-
+    
 VPN代理服务器
     常见vpn 协议：PPTP，L2TP，IPSec，SSLVPN，OpenVPN，搭建工具推荐：https://github.com/hwdsl2/setup-ipsec-vpn，https://github.com/SoftEtherVPN/SoftEtherVPN
 ```
