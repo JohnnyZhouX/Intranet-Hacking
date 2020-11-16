@@ -262,12 +262,12 @@ VPN代理服务器
     常见vpn 协议：PPTP，L2TP，IPSec，SSLVPN，OpenVPN，搭建工具推荐：https://github.com/hwdsl2/setup-ipsec-vpn，https://github.com/SoftEtherVPN/SoftEtherVPN
 ```
 
-#### 2.METASPLOIT使用简介
-
-```
+#### 2.METASPLOIT简单使用
 
 
-```
+[msf简单使用]（https://www.freebuf.com/news/210292.html）
+
+
 #### 3.Cobalt Strike简单使用 
 
 ```
