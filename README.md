@@ -513,6 +513,18 @@ wmic /node:“hostname” bios get serialnumber (this can be great for finding w
 
 0x06. 免杀相关
 ----
+#### 1.常见反病毒软件查杀方式：
+```
+    1.基于特征
+    2.基于行为
+```    
+
+
+
+
+
+
+
 
 0x07. 案例分析
 ----
