@@ -517,6 +517,12 @@ wmic /node:“hostname” bios get serialnumber (this can be great for finding w
 ```
     1.基于特征
     2.基于行为
+
+二．shellcode 免杀总结
+   shellcode"分离"免杀 
+   shellcode"混淆"免杀
+   白名单加载shellcode
+
 ```    
 
 
@@ -584,6 +590,5 @@ wmic /node:“hostname” bios get serialnumber (this can be great for finding w
   ```
    ![image](https://github.com/JohnnyZhouX/Hack_For_Intranet/blob/main/pic/%E6%8D%95%E8%8E%B74.PNG)
   ```
-4.
 
 ```    
