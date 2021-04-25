@@ -600,3 +600,8 @@ wmic /node:“hostname” bios get serialnumber (this can be great for finding w
   ```
 
 ```    
+#### 2.域前置
+
+```
+ 简介：Domain Fronting基于HTTPS通用规避技术，也被称为域前端网络攻击技术
+```
