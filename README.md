@@ -530,6 +530,8 @@ wmic /node:“hostname” bios get serialnumber (this can be great for finding w
    shellcode"分离"免杀 
    shellcode"混淆"免杀
    白名单加载shellcode
+   dll反射
+  
 
 ```    
 
