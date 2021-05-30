@@ -522,8 +522,54 @@ wmic /node:“hostname” bios get serialnumber (this can be great for finding w
   
     2.基于行为（动态查杀）
      主要通过样本的内存特征，通过拦截程序运行的api调用，通过api序列，或其是否高危来判定是否为病毒
+     
+     主要分析Windows内存马的2种常见Shellcode执行
+     
+     shellcode执行
+     
+     执行shellcode最常见的方式为shellcode注入进程，利用软件漏洞（个人觉得其实也算注入的一种方式），编写加载器执行等几种方式。其中常见的shellcode注入方式：CreateThread，CreateRemoteThread，QueueUserPAC。
     
+      CreateThread
+      1.在当前进程中申请一段空间；
+      2.把shellcode复制到该段空间；
+      3.修改改断空间的保护，允许执行权限；
+      4.为该内存空间的基址创造线程执行；
+
+      CreateRemoteThread
+      1、获取要注入进程的进程ID；
+      2、打开目标进程；
+      3、在目标进程内分配可执行内存；
+      4、将Shellcode写入分配的内存；
+      5、使用分配的内存段的起始地址，在远程进程中创建线程。
+
+
+      QueueUserPAC
+      1、获取要注入进程的进程ID；
+      2、打开目标进程；
+      3、在目标进程内分配内存；
+      4、将Shellcode写入分配的内存中；
+      5、	修改新分配内存的保护，以允许从该内存空间中执行代码；
+      6、使用分配的内存段的起始地址，在远程进程中打开一个线程；
+      7、在进入“alertable”状态时，将线程提交到队列中执行；
+
+      dll反射
+
+      常规dll注入是利用CreateRemoteThread这一函数在目标进程中开始一个新的线程，线程执行系统的API函数LoadLibrary，同时需要dll落地。这种方式容易被查处，反射式DLL注入是一种新型的DLL注入方式，它不需要像传统的注入方式一样需要DLL落地存储，避免了注入DLL被安全软件删除的危险，核心是实现ReflectiverLoader功能，常用方法参考：https://github.com/stephenfewer/ReflectiveDLLInjection
+
+     典型的反射dll案例
+     反射dll与msf联动，不依赖落地一种加载dll方式，Memorymodule（https://github.com/fancycode/MemoryModule）大致实现方法:
+
+     1.将要加载的PE文件读入内存
+     2.初始化MemoryModule句柄
+     3.装载内存
+     4.获得导出函数地址
+     5.执行导出函数
+     6.释放MemoryModule句柄
+
+     手写一个客户端，实现从Msf上获取DLL，实现加载器的效果，远程读取并加载dll
+
  ```   
+ 
 #### 2.常见免杀总结
 ```
 二．shellcode 免杀总结
