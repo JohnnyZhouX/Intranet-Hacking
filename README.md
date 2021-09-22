@@ -652,4 +652,6 @@ wmic /node:“hostname” bios get serialnumber (this can be great for finding w
 
 ```
  简介：Domain Fronting基于HTTPS通用规避技术，也被称为域前端网络攻击技术
+ 
+ https://chat1.rocketx.online/chat?secret=ec9c12d3a61ab083b0841f3c7a2b29619e40eb2cfd09efd7f297438da8627b94
 ```
